@@ -164,11 +164,11 @@ Calibrated uncertainty (ensembles / GP) and the full **empirical-law** workflow
 
 ---
 
-## First-principles models: port-Hamiltonian
+## First-principles models: port-Hamiltonian Systems PHS
 
 Black-box models (neural ODEs, LSTMs, generic regression) learn **unstructured** mappings. They interpolate well, but on **long horizons** or **unseen operating conditions** they drift, violate conservation laws, and produce unphysical behavior.
 
-A **port-Hamiltonian** model fixes the structure. The system is described as components that exchange energy through ports:
+A PHS model fixes the structure. The system is described as components that exchange energy through ports:
 
 $$\dot{x} = \bigl(J(x) - R(x)\bigr)\,\nabla H(x) + g(x)\,u, \qquad y = g(x)^{\top}\,\nabla H(x)$$
 
@@ -188,7 +188,7 @@ When you **estimate** a `PortHamiltonianNN` from data, the network architecture 
 
 ---
 
-## Empirical-law models: degradation
+## Empirical models: degradation
 
 When a system only degrades — capacity fade, wear, fatigue — there is no energy function to conserve. otwin uses a **transparent trend law** as the model structure, **estimates** a **bounded residual** on top, and quantifies uncertainty with **horizon-aware conformal intervals**:
 
@@ -206,7 +206,7 @@ Same workflow as the first-principles end — only the model structure is lighte
 
 ## What you can model
 
-First-principles (port-Hamiltonian / structured state-space) models:
+First-principles (port-Hamiltonian (PHS) / structured state-space) models:
 
 - **Mechanical systems** (mass-spring-damper, robotics, vehicles)
 - **Electrical circuits** (RLC, power systems)
