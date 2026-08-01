@@ -86,7 +86,7 @@ dev = [
 
 [project.urls]
 Homepage = "https://github.com/Javihaus/otwin"
-Documentation = "https://github.com/Javihaus/otwin/docs"
+Documentation = "https://github.com/Javihaus/otwin/tree/main/docs"
 Repository = "https://github.com/Javihaus/otwin.git"
 Issues = "https://github.com/Javihaus/otwin/issues"
 
