@@ -102,10 +102,11 @@ You choose **how much first-principles structure you can write down**. Everythin
 ## Installation
 
 **Core (numpy + scipy only):**
+
 ```bash
-# For now, until first release:
-pip install git+https://github.com/groundlens-dev/otwin.git@v2
-```
+pip install otwin
+pip install git+https://github.com/Javihaus/otwin.git@main
+​```
 
 **With optional extras:**
 ```bash
@@ -118,8 +119,6 @@ pip install "otwin[dev]"      # Testing / linting / typing / docs
 
 **Requirements:**
 - Python ≥ 3.10
-- Runs on CPU (no GPU required)
-- Works on a laptop
 
 ---
 
