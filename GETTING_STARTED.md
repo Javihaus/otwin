@@ -137,7 +137,7 @@ twin = DigitalTwin(model=sys)
 result = twin.forecast(x0, t, u)
 
 # Energy should decay exponentially with damping
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt   # requires: pip install "otwin[viz]"
 energies = [sys.energy(x) for x in result['x']]
 plt.plot(result['t'], energies)
 plt.xlabel('Time (s)')
@@ -210,16 +210,16 @@ With `u = 0`, energy is non-increasing → **passive system**.
 ### Why This Matters
 
 **Traditional neural ODEs:**
-```python
-dx = neural_net(x, u)  # No structure
+```text
+dx = neural_net(x, u)          # no structure
 ```
 → Can violate physics, create energy, drift on long horizons
 
 **Port-Hamiltonian neural networks (Phase 4):**
-```python
+```text
 dx = (J_θ(x) − R_θ(x)) ∇H_θ(x) + g_θ(x) u
-# J_θ = A_θ − A_θᵀ  (skew by construction)
-# R_θ = L_θ @ L_θᵀ  (PSD by construction)
+J_θ = A_θ − A_θᵀ   (skew by construction)
+R_θ = L_θ L_θᵀ   (PSD by construction)
 ```
 → **Structure enforced regardless of learned weights**
 → No energy-creating drift, by algebra

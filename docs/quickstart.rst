@@ -5,7 +5,7 @@ Install (core is numpy + scipy only):
 
 .. code-block:: bash
 
-   pip install git+https://github.com/Javihaus/otwin.git@v2
+   pip install otwin
 
 Strong end — an analytic port-Hamiltonian system from the catalog:
 
@@ -26,6 +26,10 @@ Strong end — an analytic port-Hamiltonian system from the catalog:
 Evaluate with a leakage-free protocol and mandatory baselines:
 
 .. code-block:: python
+
+   # `data` is your measured series, shape (n_samples, n_features)
+   rng = np.random.default_rng(0)
+   data = forecast["x"] + rng.normal(0, 0.01, forecast["x"].shape)
 
    report = evaluate(twin, data, protocol="rolling_origin")
    print(report)                         # skill score vs naive baseline, first

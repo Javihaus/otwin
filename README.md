@@ -152,12 +152,17 @@ twin = DigitalTwin(model=water_tank())
 
 # 2. Forecast from an initial state x0 over a time grid t with inputs u
 x0 = np.array([1.0])
-t  = np.linspace(0, 10, 100)
-u  = np.zeros((100, 1))
+t  = np.linspace(0, 30, 300)
+u  = np.zeros((300, 1))
 fc = twin.forecast(x0, t, u)
-print(fc["x"].shape)            # (100, 1)
+print(fc["x"].shape)            # (300, 1)
 
 # 3. Validate with a leakage-free protocol + mandatory baselines
+#    `data` is your measured series, shape (n_samples, n_features).
+#    Here we stand in for it with the model output plus measurement noise.
+rng  = np.random.default_rng(0)
+data = fc["x"] + rng.normal(0, 0.01, fc["x"].shape)
+
 report = evaluate(twin, data, protocol="rolling_origin")
 print(report)                   # skill score vs naive baseline, first
 ```
