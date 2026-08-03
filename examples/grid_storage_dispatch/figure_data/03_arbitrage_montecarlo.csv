@@ -1,4 +1,0 @@
-strategy,mean_value,shortfall_rate_pct
-Naive,194.3709168415861,100.0
-Degradation-aware,303.9904426470101,48.666666666666664
-Robust (calibrated UQ),290.84344692928255,9.333333333333334

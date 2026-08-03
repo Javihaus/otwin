@@ -1,195 +1,99 @@
 [build-system]
-requires = ["setuptools>=61.0", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [project]
-name = "otwin"
-version = "2.0.0-alpha"
-description = "Composable, physically-consistent (port-Hamiltonian) digital twins with calibrated uncertainty and rigorous evaluation by default — lightweight, CPU-first"
+name = "otwin-hybrid"
+version = "0.1.0"
+description = "A hybrid digital twin for Li-ion state of health: physics, a Gaussian process and a learned residual, compared under one honest split."
 readme = "README.md"
 requires-python = ">=3.10"
-license = {text = "Apache-2.0"}
-authors = [
-    {name = "Javier Marin", email = "javier@jmarin.info"},
-]
-maintainers = [
-    {name = "Javier Marin", email = "javier@jmarin.info"},
-]
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+authors = [{ name = "Javier Marin", email = "javier@jmarin.info" }]
 keywords = [
-    "digital-twin",
-    "port-hamiltonian",
-    "physics-informed",
-    "uncertainty-quantification",
-    "forecasting",
-    "structure-preserving",
+    "digital twin",
+    "battery",
+    "state of health",
+    "hybrid model",
+    "residual learning",
+    "physics-informed machine learning",
 ]
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 4 - Beta",
     "Intended Audience :: Science/Research",
-    "Intended Audience :: Developers",
     "License :: OSI Approved :: Apache Software License",
-    "Operating System :: OS Independent",
-    "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
     "Topic :: Scientific/Engineering",
-    "Topic :: Scientific/Engineering :: Artificial Intelligence",
-    "Topic :: Scientific/Engineering :: Physics",
-    "Typing :: Typed",
 ]
 
-# Core: numpy and scipy only
+# The tutorial is meant to run from a cold Colab runtime, so the required set is
+# deliberately small. scikit-learn is required rather than optional because the
+# Gaussian process is not a garnish -- it is one of the three models being
+# compared, and the headline result is that it loses.
 dependencies = [
-    "numpy>=1.21.0",
-    "scipy>=1.7.0",
+    "numpy>=1.24",
+    "scipy>=1.10",
+    "pandas>=2.0",
+    "scikit-learn>=1.3",
+    "matplotlib>=3.7",
+    "seaborn>=0.13",
 ]
 
 [project.optional-dependencies]
-# Optional: PyTorch for learned PHS (CPU-only)
-torch = [
-    "torch>=2.0.0",
-]
-# Optional: GP backend for GP-PHS
-gp = [
-    "gpytorch>=1.9.0",
-    "scikit-learn>=1.0.0",
-]
-# Optional: visualization
-viz = [
-    "matplotlib>=3.5.0",
-    "plotly>=5.0.0",
-    "seaborn>=0.12.0",
-]
-# Optional: everything needed to run the worked examples in examples/
-examples = [
-    "matplotlib>=3.5.0",
-    "seaborn>=0.12.0",
-    "pandas>=1.3.0",
-    "scikit-learn>=1.0.0",
-    "cvxpy>=1.3.0",
-]
-# Dev: testing, linting, typing, docs
+examples = ["jupyter>=1.0", "nbconvert>=7.0", "nbformat>=5.9"]
 dev = [
-    "pytest>=7.0.0",
-    "pytest-cov>=4.0.0",
-    "hypothesis>=6.0.0",
-    # Linters/formatters/type-checker are pinned so CI enforcement is
-    # deterministic (a newer black/ruff could reformat or flag differently).
-    "mypy==2.1.0",
-    "ruff==0.16.1",
-    "black==26.5.1",
-    "sphinx>=5.0.0",
-    "sphinx-rtd-theme>=1.0.0",
+    "pytest>=7.4",
+    "pytest-cov>=4.1",
+    "ruff>=0.6",
+    "black>=24.3",
+    "nbconvert>=7.0",
+    "nbformat>=5.9",
 ]
 
 [project.urls]
-Homepage = "https://github.com/Javihaus/otwin"
-Documentation = "https://github.com/Javihaus/otwin/tree/main/docs"
-Repository = "https://github.com/Javihaus/otwin.git"
-Issues = "https://github.com/Javihaus/otwin/issues"
+Homepage = "https://github.com/otwin-core"
+Documentation = "https://docs.otwin.dev/showcase/battery/"
+Repository = "https://github.com/otwin-core/otwin-hybrid"
+Issues = "https://github.com/otwin-core/otwin-hybrid/issues"
+"Original post" = "https://towardsdatascience.com/how-to-build-a-digital-twin-b31058fd5d3e/"
 
-[tool.setuptools]
-package-dir = {"" = "src"}
+[tool.hatch.build.targets.wheel]
+packages = ["src/otwin_hybrid"]
 
-[tool.setuptools.packages.find]
-where = ["src"]
-
-[tool.black]
-line-length = 88
-target-version = ['py310']
-include = '\.pyi?$'
-extend-exclude = '''
-/(
-  \.eggs
-  | \.git
-  | \.mypy_cache
-  | \.tox
-  | \.venv
-  | build
-  | dist
-  | legacy_v1
-)/
-'''
-
-[tool.ruff]
-line-length = 88
-target-version = "py310"
-extend-exclude = ["legacy_v1"]
-
-[tool.ruff.lint]
-select = ["E", "F", "I", "N", "W", "UP"]
-# Math-heavy code: matrix/operator names (J, R, H, S, L, A, X, K, ...) are
-# intentionally uppercase, so pep8-naming N802/N803/N806 are disabled. N999 is
-# disabled because the package is deliberately named `otwin`. E501 (line length)
-# is delegated to black, which leaves only unsplittable strings/comments.
-ignore = ["E501", "N802", "N803", "N806", "N999"]
-
-[tool.mypy]
-python_version = "3.10"
-strict = true
-warn_return_any = true
-warn_unused_configs = true
-disallow_untyped_defs = true
-disallow_incomplete_defs = true
-check_untyped_defs = true
-disallow_untyped_decorators = true
-no_implicit_optional = true
-warn_redundant_casts = true
-warn_unused_ignores = true
-warn_no_return = true
-warn_unreachable = true
-strict_equality = true
-
-[[tool.mypy.overrides]]
-module = [
-    "torch.*",
-    "gpytorch.*",
-    "sklearn.*",
-    "plotly.*",
-    "matplotlib.*",
-    "scipy.*",
-]
-ignore_missing_imports = true
+# Ship the dataset inside the wheel. Without this, `pip install otwin-hybrid`
+# produces a package that cannot find its own data, and `import
+# otwin_hybrid.comparison` fails in a site-packages install. 30 KB is a fair
+# price for the module being importable.
+[tool.hatch.build.targets.wheel.force-include]
+"data/battery_soh.csv" = "otwin_hybrid/data/battery_soh.csv"
 
 [tool.pytest.ini_options]
-minversion = "7.0"
-addopts = "-ra -q --strict-markers --strict-config"
 testpaths = ["tests"]
-python_files = ["test_*.py"]
-python_classes = ["Test*"]
-python_functions = ["test_*"]
-markers = [
-    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
-    "integration: marks tests as integration tests",
-    "unit: marks tests as unit tests",
-]
+addopts = "-ra"
 
-[tool.coverage.run]
-source = ["src/otwin"]
-omit = [
-    "*/tests/*",
-    "*/test_*.py",
-    "*/__pycache__/*",
-    "legacy_v1/*",
-    # Optional-extra modules: covered by their own gated tests only when the
-    # extra is installed ([torch], [gp]); excluded from the core coverage gate.
-    "src/otwin/learn/phnn.py",
-    "src/otwin/learn/losses.py",
-    "src/otwin/uq/gp_phs.py",
-    # Phase-6 stub (documented NotImplementedError, not yet implemented).
-    "src/otwin/twin/compose.py",
-]
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+# Notebooks are the deliverable here, not source. They are written to be read
+# top to bottom on a phone-sized Colab pane, which means compact idioms the
+# linter dislikes (`a = x; b = y`) and which are the right call for a tutorial.
+extend-exclude = ["notebooks"]
 
-[tool.coverage.report]
-exclude_lines = [
-    "pragma: no cover",
-    "def __repr__",
-    "raise AssertionError",
-    "raise NotImplementedError",
-    "if __name__ == .__main__.:",
-    "if TYPE_CHECKING:",
-    "@(abc\\.)?abstractmethod",
-]
-fail_under = 85
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.black]
+line-length = 100
+target-version = ["py310"]
+extend-exclude = "notebooks"
+
+# A lambda is the clearest way to pass a one-line function to a numerical
+# routine under test -- `numerical_gradient(lambda x: x[0]**2, ...)` reads
+# better than a def three lines above the assertion. E731 is a good rule in
+# library code and noise in tests.
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["E731"]

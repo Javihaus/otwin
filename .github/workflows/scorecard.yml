@@ -1,11 +1,19 @@
-name: Scorecard supply-chain security
+name: Scorecard
+
+# OpenSSF Scorecard grades this repository against automated supply-chain
+# checks -- pinned actions, branch protection, dependency update tooling,
+# whether CI runs on pull requests, and so on. Results are published to the
+# public API, which is what the badge in the README reads.
+#
+# It runs weekly rather than per-commit because the checks are mostly about
+# repository *configuration*, which changes rarely.
 
 on:
   branch_protection_rule:
   schedule:
-    - cron: '24 6 * * 1'
+    - cron: '31 5 * * 2'
   push:
-    branches: ["main"]
+    branches: [main]
 
 permissions: read-all
 
@@ -15,21 +23,25 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       security-events: write
-      id-token: write
+      id-token: write        # required to publish results to the public API
+      contents: read
+      actions: read
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: actions/checkout@v4
         with:
           persist-credentials: false
-      - uses: ossf/scorecard-action@62b2cac7ed8198b15735ed49ab1e5cf35480ba46 # v2.4.0
+      - uses: ossf/scorecard-action@v2.4.0
         with:
           results_file: results.sarif
           results_format: sarif
+          # Publishing is what makes the README badge resolve. Without it the
+          # badge shows "unknown" forever.
           publish_results: true
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+      - uses: actions/upload-artifact@v4
         with:
           name: SARIF file
           path: results.sarif
           retention-days: 5
-      - uses: github/codeql-action/upload-sarif@f205ea1c3313d32999d8d6a48b4f6530d4437b38 # v4
+      - uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: results.sarif

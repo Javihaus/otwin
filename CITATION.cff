@@ -1,0 +1,49 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "otwin-hybrid: a hybrid digital twin for Li-ion battery state of health"
+abstract: "The worked example the Otwin project grew from: forecasting Li-ion state of health from the first 40% of a cell's life, comparing a physics power law, a Gaussian process and a physics-plus-residual hybrid under a temporal split with mandatory baselines. Reproduced in Python, Julia and R."
+type: software
+authors:
+  - family-names: "Marin"
+    given-names: "Javier"
+    email: "javier@jmarin.info"
+repository-code: "https://github.com/otwin-core/otwin-hybrid"
+url: "https://github.com/otwin-core"
+license: Apache-2.0
+version: "0.1.0"
+date-released: "2026-08-03"
+references:
+  - type: article
+    authors:
+      - family-names: "Wang"
+        given-names: "John"
+    title: "Cycle-life model for graphite-LiFePO4 cells"
+    journal: "Journal of Power Sources"
+    volume: 196
+    issue: 8
+    start: 3942
+    end: 3948
+    year: 2011
+    doi: "10.1016/j.jpowsour.2010.11.134"
+  - type: data
+    authors:
+      - family-names: "Saha"
+        given-names: "Bhaskar"
+      - family-names: "Goebel"
+        given-names: "Kai"
+    title: "Battery Data Set"
+    year: 2007
+    publisher:
+      name: "NASA Ames Prognostics Data Repository, NASA Ames Research Center"
+    url: "https://www.nasa.gov/intelligent-systems-division/discovery-and-systems-health/pcoe/pcoe-data-set-repository/"
+
+keywords:
+  - battery
+  - state of health
+  - hybrid model
+  - residual learning
+  - digital twin
+  - port-Hamiltonian
+  - physics-informed machine learning
+  - uncertainty quantification
+  - scientific machine learning

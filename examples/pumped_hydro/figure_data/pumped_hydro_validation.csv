@@ -1,7 +1,0 @@
-quantity,value
-round_trip_numeric,0.8096321086018106
-round_trip_closed_form,0.81
-eta_pump,0.9
-eta_turbine,0.9
-usable_MWh,719.8517213744192
-idle_drift_pct_3h,-0.00635342251201069
