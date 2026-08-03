@@ -1,1 +1,0 @@
-"""Integration tests for the hybrid digital twin framework."""

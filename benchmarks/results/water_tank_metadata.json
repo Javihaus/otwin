@@ -1,9 +1,0 @@
-{
-  "description": "Water tank PHS with rolling-origin evaluation",
-  "system": "Water tank (analytic port-Hamiltonian)",
-  "protocol": "rolling_origin",
-  "n_folds": 5,
-  "data_points": 500,
-  "seed": 42,
-  "version": "2.0.0-alpha"
-}
