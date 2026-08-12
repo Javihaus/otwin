@@ -1,8 +1,6 @@
 <div align="center">
 
-# Hybrid Digital Twin for Li-ion Batteries
-
-**Can you predict when a battery reaches end of life, from only the first 40 % of its life?**
+# Hybrid Digital Twin for Li-ion Batteries: Predict when a battery reaches end of life
 
 [![CI](https://img.shields.io/github/actions/workflow/status/otwin-core/otwin-hybrid/ci.yml?style=flat-square&label=CI)](https://github.com/otwin-core/otwin-hybrid/actions)
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue?style=flat-square)](https://www.python.org/downloads/)
@@ -11,11 +9,8 @@
 [![OpenSSF Scorecard](https://img.shields.io/ossf-scorecard/github.com/otwin-core/otwin-hybrid?style=flat-square&label=OpenSSF%20Scorecard)](https://scorecard.dev/viewer/?uri=github.com/otwin-core/otwin-hybrid)
 [![OpenSSF Best Practices](https://www.bestpractices.dev/projects/13420/badge)](https://www.bestpractices.dev/projects/13420)
 
-Three models, one honest test — in Python, Julia and R.
 
 [![Open in Colab — Python](https://img.shields.io/badge/Colab-Python-F9AB00?style=flat-square&logo=googlecolab&logoColor=white)](https://colab.research.google.com/github/otwin-core/otwin-hybrid/blob/main/notebooks/hybrid_digital_twin_python.ipynb)
-[![Open in Colab — Julia](https://img.shields.io/badge/Colab-Julia-9558B2?style=flat-square&logo=julia&logoColor=white)](https://colab.research.google.com/github/otwin-core/otwin-hybrid/blob/main/notebooks/hybrid_digital_twin_julia.ipynb)
-[![Open in Colab — R](https://img.shields.io/badge/Colab-R-276DC3?style=flat-square&logo=r&logoColor=white)](https://colab.research.google.com/github/otwin-core/otwin-hybrid/blob/main/notebooks/hybrid_digital_twin_r.ipynb)
 <br>
 
 </div>
@@ -212,30 +207,13 @@ The straight line has the second-best RMSE and the worst answer to the actual qu
 - **The degradation law is borrowed across chemistries.** Wang et al. (2011) is a model for graphite-LiFePO₄ cells. B0005/6/7/18 are LiCoO₂ 18650s. The functional form transfers; the fitted constants are not the paper's, and a battery researcher will ask about this in the first paragraph. Consider it flagged rather than defended.
 - **The capacity series is non-monotone.** Capacity recovery produces upward steps in 20–30 % of cycles, up to +7.5 pp, and B0005 crosses the 0.80 line three times. "True end of life" here is the *first* crossing of a noisy series. The ranking survives a 3-consecutive-cycles rule (11.5 / 20.4 / 24.2, same order), but the definition is a choice and it should be visible.
 
----
-
 ## Run it
 
-**One click, no install** — all three notebooks open in Google Colab:
+Run the notebook directly with Google Colab: 
 
-| | Notebook | Colab support |
-|---|---|---|
-| 🐍 | [**Python**](notebooks/hybrid_digital_twin_python.ipynb) | native runtime — press *Run all* |
-| 🔷 | [**Julia**](notebooks/hybrid_digital_twin_julia.ipynb) | no native runtime; the first cell installs one (~2–3 min, once per session) |
-| 📊 | [**R**](notebooks/hybrid_digital_twin_r.ipynb) | native R runtime — *Runtime → Change runtime type → R*, or open [colab.to/r](https://colab.to/r) |
+[![Open in Colab — Python](https://img.shields.io/badge/Colab-Python-F9AB00?style=flat-square&logo=googlecolab&logoColor=white)](https://colab.research.google.com/github/otwin-core/otwin-hybrid/blob/main/notebooks/hybrid_digital_twin_python.ipynb)
 
-All three tell the same story with the same data, but **they do not implement the same method**, and the differences are larger than rounding:
-
-| | Python | Julia | R |
-|---|---|---|---|
-| data-only model | Gaussian process, hyperparameters optimised | kernel ridge, fixed length scale | `loess` local regression |
-| hybrid network | 2x16, `alpha=1e-2` | 2x16, no weight decay | 1x8, `decay=1e-2` |
-
-They agree on the **ranking** and on the reason for it — a model with no concept of a battery cannot extrapolate one — but the data-only row differs by tens of per cent between languages, and the tables printed by the Julia and R notebooks are their own, not Python's.
-
-> **Honesty note.** The Python notebook is executed end to end in CI, so it is verified to run. The Julia and R notebooks were written against their libraries but **could not be executed in the environment where they were built** — no Julia or R interpreter was available. If one of them fails for you, that is a bug and an issue is welcome; it is not a case of you doing something wrong.
-
-**Locally:**
+or locally:
 
 ```bash
 git clone https://github.com/otwin-core/otwin-hybrid.git
@@ -247,9 +225,9 @@ python -m otwin_hybrid.figures       # regenerates every figure
 
 Every number in this README comes from those two commands with `SEED = 0`. If a figure disagrees with the text, the text is the bug.
 
----
 
-## The data
+
+## Data
 
 NASA Ames Prognostics Center, Li-ion Battery Aging Dataset — cells B0005, B0006, B0007, B0018, cycled to failure at 24 °C.
 
@@ -257,31 +235,7 @@ NASA Ames Prognostics Center, Li-ion Battery Aging Dataset — cells B0005, B000
 
 > Saha, B. & Goebel, K. (2007). *Battery Data Set.* NASA Ames Prognostics Data Repository, NASA Ames Research Center, Moffett Field, CA.
 
----
 
-## Where this goes next
-
-This notebook is the tutorial. The same ideas, engineered properly, are **a collection of composable tools** — install only the piece you need:
-
-| Tool | What it does |
-|---|---|
-| [`otwin-systems`](https://github.com/otwin-core/otwin-systems) | physical model structures, each validated against a closed-form answer |
-| [`otwin-eval`](https://github.com/otwin-core/otwin-eval) | the temporal split and mandatory baselines used here |
-| [`otwin-uq`](https://github.com/otwin-core/otwin-uq) | calibrated uncertainty — **this notebook has none, which is its biggest gap** |
-| [`otwin-phs`](https://github.com/otwin-core/otwin-phs) | port-Hamiltonian systems, for assets whose physics is an energy balance |
-| [`otwin-spec`](https://github.com/otwin-core/otwin-spec) | the conformance suite that checks all of the above |
-
-**What this tutorial does not do, and should:** produce an interval. Every forecast here is a single line, and a single line is not a forecast — it is a guess with good posture. `otwin-uq` measures whether a stated 90 % band actually contains the truth 90 % of the time.
-
----
-
-## The one thing to take away
-
-The physics is not there for interpretability.
-
-It is there because it is the only part of the model that still knows what it is doing outside the data it was fitted on.
-
----
 
 ## Citation
 
