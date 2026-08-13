@@ -13,15 +13,33 @@
 [![Open in Colab — Python](https://img.shields.io/badge/Colab-Python-F9AB00?style=flat-square&logo=googlecolab&logoColor=white)](https://colab.research.google.com/github/otwin-core/otwin-hybrid/blob/main/notebooks/hybrid_digital_twin_python.ipynb)
 <br>
 
+
+<br>
+<br>
+<div align="center">
+
+  ####  	:wave: NEWS: Now there is a python library you can use to reproduce this experiment and much more   
+
+<br>
+
+:rocket: Repo: https://github.com/otwin-core/otwin
+
+`pip install otwin`
+
+[![PyPI](https://img.shields.io/pypi/v/otwin?color=1a4fd6&cacheSeconds=3600)](https://pypi.org/project/otwin/)
+
+<br>
+<br>
+
 </div>
 
----
+
 
 This is where the [Otwin](https://github.com/otwin-core) project started — a [Towards Data Science post](https://towardsdatascience.com/how-to-build-a-digital-twin-b31058fd5d3e/) in 2021 about building a digital twin of a battery. It has been rebuilt: better model, honest evaluation, and the same worked example in **three languages**, each opening in one click.
 
 **It is a tutorial.** The engineered tools that grew out of it are [a separate ecosystem](#where-this-goes-next), and this repository points at them rather than pretending to be them.
 
----
+  
 
 ## The question
 
