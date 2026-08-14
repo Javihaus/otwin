@@ -69,15 +69,17 @@ jobs:
       - run: |
           python -m pip install --upgrade pip
           pip install -e ".[dev]"
-          # Pin the scientific stack to the versions the committed results/
-          # were produced in. `git diff --exit-code` below is a bit-level
-          # claim, and a bit-level claim against an unpinned LAPACK is a
-          # scheduled false alarm. See requirements-repro.txt.
-          pip install -r requirements-repro.txt
+      - name: Keep a copy of the committed numbers
+        run: cp -r results results_committed
       - name: Recompute
         run: python -m otwin_hybrid.comparison
-      - name: Results must be bit-identical to what is committed
-        run: git diff --exit-code -- results/
+      - name: Every number must reproduce to one part in a million
+        # Not `git diff --exit-code`. That asserted byte-identical CSVs, which
+        # is a claim about floating point rather than about this code: the
+        # OpenBLAS inside the numpy and scipy wheels dispatches on the CPU it
+        # finds, so the last digits move between machines even on pinned
+        # versions. See scripts/compare_results.py.
+        run: python scripts/compare_results.py results_committed results
       - name: Redraw
         run: python -m otwin_hybrid.figures
       - name: Every figure referenced by the README must exist
