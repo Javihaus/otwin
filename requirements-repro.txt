@@ -1,0 +1,26 @@
+# The environment the committed results/ were produced in.
+#
+# results/*.csv are compared with `git diff --exit-code` in CI, which is a
+# bit-level claim. A bit-level claim about an unpinned scientific stack is not
+# a claim at all: fit_physics is a nonlinear least-squares fit, and a newer
+# LAPACK converges to a marginally different point. Measured on this data,
+# same seed, same code:
+#
+#   numpy 2.4.6 / scipy 1.17.1  ->  matches results/ exactly
+#   numpy 2.5.2 / scipy 1.18.0  ->  every row of curves.csv differs in the
+#                                   last decimal digit
+#
+# Nothing is wrong in either case. The difference is floating-point
+# associativity in a dependency. Without these pins the reproduce job passes
+# today and goes red on a dependency bump, reporting a regression that did not
+# happen.
+#
+# To move a pin: bump it, rerun `python -m otwin_hybrid.comparison`, and commit
+# the regenerated results/ in the same change. The numbers and the environment
+# that produced them travel together.
+matplotlib==3.11.1
+numpy==2.4.6
+pandas==3.0.5
+scikit-learn==1.9.0
+scipy==1.17.1
+seaborn==0.13.2
