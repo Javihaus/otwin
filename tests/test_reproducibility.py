@@ -217,6 +217,40 @@ def test_soh_is_finite_and_plausible() -> None:
 # ---------------------------------------------------------------------------
 
 
+# On the tolerance below, because the module docstring says to look rather
+# than widen, and this is the record of having looked.
+#
+# It was rel=REPRODUCTION_TOLERANCE, and that failed on the newer half of the CI matrix. Measured
+# values, same seed, same code, same machine:
+#
+#   numpy 2.2.6 / scipy 1.15.3   hybrid RMSE = 0.03983393462630047
+#   numpy 2.4.6 / scipy 1.17.1   hybrid RMSE = 0.03983393462630047
+#   numpy 2.5.2 / scipy 1.18.0   hybrid RMSE = 0.039833934781460995
+#
+# A relative difference of 3.9e-9, and it splits by library version, not by
+# Python version. fit_physics is a nonlinear least-squares fit; the newer stack
+# takes a different path through LAPACK and converges to a marginally different
+# point. No seed fixes that, because it is not randomness -- it is
+# floating-point associativity in someone else's library.
+#
+# So rel=REPRODUCTION_TOLERANCE was not testing this repository. It was asserting bit-identical
+# LAPACK across releases, which is not a property anyone can hold, and it would
+# have gone red on a dependency bump with nothing wrong here.
+#
+# rel=1e-6 is one part in a million: still four orders of magnitude tighter
+# than the four significant figures the README prints, and far tighter than
+# anything that could change a maintenance decision. The regressions this test
+# exists to catch -- a wrong split, a broken residual model, rmse() returning
+# zero -- move these numbers by percent, and are still caught.
+#
+# Bit-exactness has not been given up. It lives in the `reproduce` CI job,
+# which regenerates results/ in one pinned environment and fails on
+# `git diff --exit-code`. Exactness is a claim about one toolchain, not four.
+
+#: Tolerance for "the code still produces the committed result". See above.
+REPRODUCTION_TOLERANCE = 1e-6
+
+
 def test_recomputing_from_scratch_reproduces_the_committed_summary(
     tmp_path, monkeypatch, summary: dict
 ) -> None:
@@ -229,13 +263,13 @@ def test_recomputing_from_scratch_reproduces_the_committed_summary(
 
     for model, expected in summary["summary"]["rmse"].items():
         assert fresh["summary"]["rmse"][model] == pytest.approx(
-            expected, rel=1e-9
+            expected, rel=REPRODUCTION_TOLERANCE
         ), f"{model} RMSE moved: the code no longer produces the committed result"
     for model, expected in summary["eol_error_cycles"]["mean_abs_error"].items():
         assert fresh["eol_error_cycles"]["mean_abs_error"][model] == pytest.approx(
-            expected, rel=1e-9
+            expected, rel=REPRODUCTION_TOLERANCE
         )
     for a, b in zip(fresh["params"], summary["params"], strict=True):
         assert a["battery"] == b["battery"]
-        assert a["z"] == pytest.approx(b["z"], rel=1e-9)
-        assert a["c"] == pytest.approx(b["c"], rel=1e-9)
+        assert a["z"] == pytest.approx(b["z"], rel=REPRODUCTION_TOLERANCE)
+        assert a["c"] == pytest.approx(b["c"], rel=REPRODUCTION_TOLERANCE)
