@@ -2,15 +2,16 @@
 
 # Hybrid Digital Twin for Li-ion Batteries: Predict when a battery reaches end of life
 
-[![CI](https://img.shields.io/github/actions/workflow/status/otwin-core/otwin-hybrid/ci.yml?style=flat-square&label=CI)](https://github.com/otwin-core/otwin-hybrid/actions)
-[![Python](https://img.shields.io/badge/python-3.10%2B-blue?style=flat-square)](https://www.python.org/downloads/)
 [![License: Apache 2.0](https://img.shields.io/badge/license-Apache%202.0-brightgreen?style=flat-square)](https://opensource.org/licenses/apache)
+[![Python](https://img.shields.io/badge/python-3.10%2B-blue?style=flat-square)](https://www.python.org/downloads/)
 [![Stars](https://img.shields.io/github/stars/otwin-core/otwin-hybrid?style=flat-square&label=Stars)](https://github.com/otwin-core/otwin-hybrid/stargazers)
+[![Forks](https://img.shields.io/github/forks/otwin-core/otwin-hybrid?style=flat-square&label=Forks)](https://github.com/otwin-core/otwin-hybrid/forks)
+
+[![CI](https://img.shields.io/github/actions/workflow/status/otwin-core/otwin-hybrid/ci.yml?style=flat-square&label=CI)](https://github.com/otwin-core/otwin-hybrid/actions)
 [![OpenSSF Scorecard](https://img.shields.io/ossf-scorecard/github.com/otwin-core/otwin-hybrid?style=flat-square&label=OpenSSF%20Scorecard)](https://scorecard.dev/viewer/?uri=github.com/otwin-core/otwin-hybrid)
 [![OpenSSF Best Practices](https://www.bestpractices.dev/projects/13420/badge)](https://www.bestpractices.dev/projects/13420)
 
 
-[![Open in Colab — Python](https://img.shields.io/badge/Colab-Python-F9AB00?style=flat-square&logo=googlecolab&logoColor=white)](https://colab.research.google.com/github/otwin-core/otwin-hybrid/blob/main/notebooks/hybrid_digital_twin_python.ipynb)
 <br>
 
 
