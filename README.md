@@ -15,8 +15,7 @@
 
 
 <br>
-<br>
-<div align="center">
+<br
 
   ####  	:wave: NEWS: Now there is a python library you can use to reproduce this experiment and much more   
 
